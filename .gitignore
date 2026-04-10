@@ -1,0 +1,13 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Prompt files (reference only)
+*_prompt.txt
+
+# Text reference files
+oferta_aureasystems.txt
