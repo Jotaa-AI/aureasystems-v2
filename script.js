@@ -420,7 +420,7 @@
       const meta = {
         submittedAt: new Date().toISOString(),
         pageUrl: window.location.href,
-        source: 'aurea-v2-hero-simulator',
+        source: 'aurea-systems-patient-flow-simulator',
         eventType,
       };
 
@@ -635,6 +635,118 @@
     renderCalculator();
   }
 
+  // --- AI CONVERSATION ---
+  function initAIConversation() {
+    const chat = document.getElementById('ai-chat');
+    const messagesContainer = document.getElementById('ai-chat-messages');
+    const typingIndicator = document.getElementById('ai-chat-typing');
+
+    if (!chat || !messagesContainer || !typingIndicator) return;
+
+    const conversationFlow = [
+      {
+        from: 'patient',
+        label: 'Posible paciente',
+        text: 'Hola, vi vuestro anuncio para armonización facial. ¿Tenéis primera valoración?',
+      },
+      {
+        from: 'agent',
+        label: 'Agente IA',
+        text: 'Hola, claro. Soy el agente de Patient Flow de la clínica. ¿Qué tratamiento te interesa ahora mismo?',
+      },
+      {
+        from: 'patient',
+        label: 'Posible paciente',
+        text: 'Me interesa sobre todo labios y un resultado natural.',
+      },
+      {
+        from: 'agent',
+        label: 'Agente IA',
+        text: 'Perfecto. Para orientarte mejor, ¿es tu primera vez o ya te lo has realizado antes?',
+      },
+      {
+        from: 'patient',
+        label: 'Posible paciente',
+        text: 'Ya me lo hice una vez, pero quiero algo más sutil.',
+      },
+      {
+        from: 'agent',
+        label: 'Agente IA',
+        text: 'Entendido. Tenemos huecos esta semana. ¿Prefieres mañana por la tarde o el viernes por la mañana?',
+      },
+      {
+        from: 'patient',
+        label: 'Posible paciente',
+        text: 'El viernes por la mañana me va bien.',
+      },
+      {
+        from: 'agent',
+        label: 'Agente IA',
+        text: 'Perfecto. Te dejo propuesta de primera valoración el viernes a las 11:30 y, si quieres, aviso también al equipo para continuar contigo.',
+      },
+    ];
+
+    let hasStarted = false;
+
+    function scrollMessagesToBottom() {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function appendMessage(message) {
+      const row = document.createElement('div');
+      row.className = `ai-chat__message ai-chat__message--${message.from}`;
+
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-chat__bubble';
+
+      const meta = document.createElement('span');
+      meta.className = 'ai-chat__meta';
+      meta.textContent = message.label;
+
+      const text = document.createElement('p');
+      text.textContent = message.text;
+
+      bubble.appendChild(meta);
+      bubble.appendChild(text);
+      row.appendChild(bubble);
+      messagesContainer.appendChild(row);
+      scrollMessagesToBottom();
+    }
+
+    function playConversation() {
+      if (hasStarted) return;
+      hasStarted = true;
+
+      conversationFlow.forEach((message, index) => {
+        window.setTimeout(() => {
+          typingIndicator.hidden = false;
+          scrollMessagesToBottom();
+
+          window.setTimeout(() => {
+            typingIndicator.hidden = true;
+            appendMessage(message);
+          }, 520);
+        }, index * 1300);
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            playConversation();
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.35,
+      }
+    );
+
+    observer.observe(chat);
+  }
+
   // --- INIT EVERYTHING ---
   function init() {
     initPageLoader();
@@ -645,6 +757,7 @@
     initSmoothAnchors();
     initMagneticButtons();
     initHeroSimulator();
+    initAIConversation();
   }
 
   if (document.readyState === 'loading') {
