@@ -9,13 +9,50 @@
   // --- PAGE LOADER ---
   function initPageLoader() {
     const loader = document.getElementById('page-loader');
+    const fill = document.getElementById('page-loader-fill');
+    const status = document.getElementById('page-loader-status');
+    const value = document.getElementById('page-loader-value');
     if (!loader) return;
 
     let hidden = false;
+    const totalDuration = 2600;
+    const start = performance.now();
+    let frame = 0;
+
+    function animateProgress(now) {
+      if (!fill || !status || !value || hidden) return;
+
+      const progress = Math.min((now - start) / totalDuration, 1);
+      const eased = 1 - Math.pow(1 - progress, 2.4);
+      const percentage = progress >= 1 ? 100 : Math.min(97, Math.round(eased * 100));
+
+      fill.style.width = `${percentage}%`;
+      value.textContent = `${percentage}%`;
+
+      if (percentage < 35) {
+        status.textContent = 'Cargando Aurea Systems';
+      } else if (percentage < 75) {
+        status.textContent = 'Preparando Patient Flow';
+      } else if (percentage < 100) {
+        status.textContent = 'Abriendo la experiencia';
+      } else {
+        status.textContent = 'Listo';
+      }
+
+      if (progress < 1) {
+        frame = window.requestAnimationFrame(animateProgress);
+      }
+    }
 
     function hideLoader() {
       if (hidden) return;
       hidden = true;
+      window.cancelAnimationFrame(frame);
+
+      if (fill) fill.style.width = '100%';
+      if (value) value.textContent = '100%';
+      if (status) status.textContent = 'Listo';
+
       document.body.classList.remove('is-loading');
       loader.classList.add('is-hidden');
 
@@ -24,8 +61,9 @@
       }, 650);
     }
 
+    frame = window.requestAnimationFrame(animateProgress);
     window.addEventListener('load', hideLoader, { once: true });
-    window.setTimeout(hideLoader, 2200);
+    window.setTimeout(hideLoader, 2600);
   }
 
   // --- NAVBAR SCROLL BEHAVIOR ---
@@ -196,6 +234,7 @@
   function initSmoothAnchors() {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener('click', (e) => {
+        if (anchor.hasAttribute('data-booking-trigger')) return;
         e.preventDefault();
         const targetId = anchor.getAttribute('href');
         if (targetId === '#') return;
@@ -211,6 +250,62 @@
           });
         }
       });
+    });
+  }
+
+  // --- BOOKING MODAL ---
+  function initBookingModal() {
+    const modal = document.getElementById('booking-modal');
+    const placeholder = document.getElementById('booking-modal-placeholder');
+    const bookingFrame = document.getElementById('Pmlo90k5oI5mm21x9Vqb_1775980045908');
+    const triggers = document.querySelectorAll('[data-booking-trigger]');
+    const closeTargets = document.querySelectorAll('[data-booking-close]');
+
+    if (!modal || !bookingFrame || !triggers.length) return;
+
+    let frameLoaded = false;
+
+    function hidePlaceholder() {
+      if (frameLoaded) return;
+      frameLoaded = true;
+      if (placeholder) {
+        placeholder.classList.add('is-hidden');
+        window.setTimeout(() => {
+          placeholder.remove();
+        }, 240);
+      }
+    }
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        openModal();
+      });
+    });
+
+    closeTargets.forEach((target) => {
+      target.addEventListener('click', closeModal);
+    });
+
+    bookingFrame.addEventListener('load', hidePlaceholder, { once: true });
+    window.setTimeout(hidePlaceholder, 1600);
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
     });
   }
 
@@ -645,44 +740,74 @@
 
     const conversationFlow = [
       {
-        from: 'patient',
-        label: 'Posible paciente',
-        text: 'Hola, vi vuestro anuncio para armonización facial. ¿Tenéis primera valoración?',
+        from: 'agent',
+        label: 'Ana · IA',
+        text: 'Hola Marta👋\nSoy Ana de Aurea Clínics en Barcelona',
       },
       {
         from: 'agent',
-        label: 'Agente IA',
-        text: 'Hola, claro. Soy el agente de Patient Flow de la clínica. ¿Qué tratamiento te interesa ahora mismo?',
+        label: 'Ana · IA',
+        text: 'He visto que te has interesado por nuestros tratamientos.\n¿Es para algo concreto que te gustaría mejorar o todavía estás explorando opciones? 😊',
       },
       {
         from: 'patient',
-        label: 'Posible paciente',
-        text: 'Me interesa sobre todo labios y un resultado natural.',
+        label: 'Marta',
+        text: 'Hola Ana. Sí, justo estoy mirando porque me preocupa bastante la flacidez de la parte baja del rostro y también el surco nasogeniano. No tengo claro qué me iría mejor.',
       },
       {
         from: 'agent',
-        label: 'Agente IA',
-        text: 'Perfecto. Para orientarte mejor, ¿es tu primera vez o ya te lo has realizado antes?',
+        label: 'Ana · IA',
+        text: 'Entiendo. Gracias por contármelo. Para orientarte bien, ¿buscas algo muy natural y progresivo o te apetecería notar un cambio más visible desde el principio?',
       },
       {
         from: 'patient',
-        label: 'Posible paciente',
-        text: 'Ya me lo hice una vez, pero quiero algo más sutil.',
+        label: 'Marta',
+        text: 'Natural, sin duda. Quiero verme mejor, pero sin que se note raro.',
       },
       {
         from: 'agent',
-        label: 'Agente IA',
-        text: 'Entendido. Tenemos huecos esta semana. ¿Prefieres mañana por la tarde o el viernes por la mañana?',
+        label: 'Ana · IA',
+        text: 'Perfecto, ese tipo de resultado es justo el que más nos piden. ¿Te has hecho antes algún tratamiento facial estético o sería tu primera valoración con nosotros?',
       },
       {
         from: 'patient',
-        label: 'Posible paciente',
-        text: 'El viernes por la mañana me va bien.',
+        label: 'Marta',
+        text: 'Me hice ácido hialurónico hace un par de años, pero bastante poco. Desde entonces nada.',
       },
       {
         from: 'agent',
-        label: 'Agente IA',
-        text: 'Perfecto. Te dejo propuesta de primera valoración el viernes a las 11:30 y, si quieres, aviso también al equipo para continuar contigo.',
+        label: 'Ana · IA',
+        text: 'Genial, me sirve. Para la primera valoración médica, ¿te viene mejor entre semana por la mañana o por la tarde?',
+      },
+      {
+        from: 'patient',
+        label: 'Marta',
+        text: 'Por la tarde mejor. A partir de las 17:00 suelo poder.',
+      },
+      {
+        from: 'agent',
+        label: 'Ana · IA',
+        text: 'Perfecto. Veo hueco este jueves a las 17:30 o el lunes a las 18:00 en clínica. La primera valoración es presencial para que el doctor pueda verte bien y proponerte el plan más adecuado. ¿Cuál te encaja mejor?',
+      },
+      {
+        from: 'patient',
+        label: 'Marta',
+        text: 'El jueves a las 17:30 me viene genial.',
+      },
+      {
+        from: 'agent',
+        label: 'Ana · IA',
+        text: 'Reservado, Marta 😊\nTe he agendado la primera valoración para este jueves a las 17:30 en Aurea Clínics Barcelona.\nSi quieres, te paso ahora mismo la ubicación y las indicaciones para llegar.',
+      },
+      {
+        from: 'patient',
+        label: 'Marta',
+        text: 'Perfecto, envíamelas por favor.',
+      },
+      {
+        from: 'agent',
+        label: 'Ana · IA',
+        text: 'Claro. Te las envío ahora mismo junto con la confirmación. Y si antes de venir te surge cualquier duda, me escribes por aquí y te ayudo.',
       },
     ];
 
@@ -713,21 +838,35 @@
       scrollMessagesToBottom();
     }
 
-    function playConversation() {
+    function playConversation(index = 0) {
       if (hasStarted) return;
       hasStarted = true;
+      runMessage(index);
+    }
 
-      conversationFlow.forEach((message, index) => {
-        window.setTimeout(() => {
-          typingIndicator.hidden = false;
-          scrollMessagesToBottom();
+    function runMessage(index) {
+      const message = conversationFlow[index];
+      if (!message) return;
 
-          window.setTimeout(() => {
-            typingIndicator.hidden = true;
-            appendMessage(message);
-          }, 520);
-        }, index * 1300);
-      });
+      const isAgent = message.from === 'agent';
+      const typingDuration = isAgent
+        ? Math.min(1500, Math.max(720, Math.round(message.text.length * 18)))
+        : Math.min(900, Math.max(260, Math.round(message.text.length * 8)));
+
+      if (isAgent) {
+        typingIndicator.hidden = false;
+        scrollMessagesToBottom();
+      }
+
+      window.setTimeout(() => {
+        typingIndicator.hidden = true;
+        appendMessage(message);
+
+        if (index + 1 < conversationFlow.length) {
+          const pauseAfter = isAgent ? 540 : 360;
+          window.setTimeout(() => runMessage(index + 1), pauseAfter);
+        }
+      }, typingDuration);
     }
 
     const observer = new IntersectionObserver(
@@ -755,6 +894,7 @@
     initCounters();
     initTestimonialsScroll();
     initSmoothAnchors();
+    initBookingModal();
     initMagneticButtons();
     initHeroSimulator();
     initAIConversation();
