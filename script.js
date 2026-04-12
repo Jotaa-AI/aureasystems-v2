@@ -6,84 +6,6 @@
 (function () {
   'use strict';
 
-  // --- PAGE LOADER ---
-  function initPageLoader() {
-    const loader = document.getElementById('page-loader');
-    const fill = document.getElementById('page-loader-fill');
-    const status = document.getElementById('page-loader-status');
-    const value = document.getElementById('page-loader-value');
-    if (!loader) return;
-
-    let hidden = false;
-    let loadReady = document.readyState === 'complete';
-    let animationReady = false;
-    const minimumDuration = 3200;
-    const hardTimeout = 5200;
-    const start = performance.now();
-    let frame = 0;
-
-    function animateProgress(now) {
-      if (!fill || !status || !value || hidden) return;
-
-      const targetDuration = animationReady ? minimumDuration : minimumDuration * 0.92;
-      const progress = Math.min((now - start) / targetDuration, 1);
-      const eased = 1 - Math.pow(1 - progress, 2.4);
-      const percentage = loadReady && animationReady
-        ? 100
-        : Math.min(96, Math.round(eased * 100));
-
-      fill.style.width = `${percentage}%`;
-      value.textContent = `${percentage}%`;
-
-      if (percentage < 28) {
-        status.textContent = 'Inicializando sistema';
-      } else if (percentage < 62) {
-        status.textContent = 'Sincronizando Patient Flow';
-      } else if (percentage < 92) {
-        status.textContent = 'Preparando la experiencia';
-      } else {
-        status.textContent = loadReady && animationReady ? 'Listo' : 'Ultimando detalles';
-      }
-
-      if (!hidden) {
-        frame = window.requestAnimationFrame(animateProgress);
-      }
-    }
-
-    function maybeHideLoader() {
-      if (!loadReady || !animationReady) return;
-      hideLoader();
-    }
-
-    function hideLoader() {
-      if (hidden) return;
-      hidden = true;
-      window.cancelAnimationFrame(frame);
-
-      if (fill) fill.style.width = '100%';
-      if (value) value.textContent = '100%';
-      if (status) status.textContent = 'Listo';
-
-      document.body.classList.remove('is-loading');
-      loader.classList.add('is-hidden');
-
-      window.setTimeout(() => {
-        loader.remove();
-      }, 650);
-    }
-
-    frame = window.requestAnimationFrame(animateProgress);
-    window.addEventListener('load', () => {
-      loadReady = true;
-      maybeHideLoader();
-    }, { once: true });
-    window.setTimeout(() => {
-      animationReady = true;
-      maybeHideLoader();
-    }, minimumDuration);
-    window.setTimeout(hideLoader, hardTimeout);
-  }
-
   // --- NAVBAR SCROLL BEHAVIOR ---
   const navbar = document.querySelector('.navbar');
   let lastScroll = 0;
@@ -869,7 +791,7 @@
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Ahora mismo te envío por aquí la ubicación, la confirmación y un recordatorio antes de venir.\nSi te surge cualquier duda antes de la cita, me escribes y te ayudo.',
+        text: 'Ahora mismo te envío por aquí la ubicación y la confirmación.\nAntes de tu cita te llegará también un mensaje de recordatorio para que la tengas presente.\nSi te surge cualquier duda antes de venir, me escribes y te ayudo.',
       },
     ];
 
@@ -950,7 +872,6 @@
 
   // --- INIT EVERYTHING ---
   function init() {
-    initPageLoader();
     initScrollReveal();
     initParallax();
     initCounters();
