@@ -238,7 +238,7 @@
         </h2>
         <div class="problem__divider"></div>
         <p class="section-subtitle">
-          Tu publicidad funciona. Tu equipo también. Lo que falla es todo lo que ocurre entre medias.
+          El interés puede llegar de cualquier canal. Lo que suele fallar es todo lo que ocurre entre el primer contacto y la cita.
         </p>
       </div>
 
@@ -248,7 +248,10 @@
           <div class="problem__stat-label">de potenciales pacientes se pierden antes de llegar a consulta</div>
         </div>
         <div class="problem__stat reveal-stagger stagger-2">
-          <div class="problem__stat-value" data-count="24" data-suffix="h">0h</div>
+          <div class="problem__stat-value problem__stat-value--dual">
+            <span>+3h</span>
+            <small>y hasta 24h</small>
+          </div>
           <div class="problem__stat-label">de media en responder al primer contacto</div>
         </div>
         <div class="problem__stat reveal-stagger stagger-3">
@@ -277,57 +280,84 @@
         </p>
       </div>
 
-      <div class="phases-accordion reveal" id="phases-accordion">
-        <article class="phase-accordion-item reveal-stagger stagger-1 is-open">
-          <button class="phase-accordion-trigger" type="button" aria-expanded="true">
-            <span class="phase-accordion-trigger__index">01</span>
-            <span class="phase-accordion-trigger__title">Atracción inteligente</span>
-            <span class="phase-accordion-trigger__icon"></span>
-          </button>
-          <div class="phase-accordion-panel">
-            <p class="phase-accordion-panel__text">
-              Grabamos cada mes 8-12 videos directamente en tu clínica con tu equipo médico. Sin plantillas genéricas. Sin stock. Todo real y optimizado para Meta Ads.
-            </p>
-          </div>
-        </article>
+      <div class="phases-orbital reveal" id="phases-orbital">
+        <div class="phases-orbital__stage">
+          <div class="phases-orbital__glow" aria-hidden="true"></div>
+          <div class="phases-orbital__ring phases-orbital__ring--outer" aria-hidden="true"></div>
+          <div class="phases-orbital__ring phases-orbital__ring--inner" aria-hidden="true"></div>
 
-        <article class="phase-accordion-item reveal-stagger stagger-2">
-          <button class="phase-accordion-trigger" type="button" aria-expanded="false">
-            <span class="phase-accordion-trigger__index">02</span>
-            <span class="phase-accordion-trigger__title">Calificación 24/7 con IA</span>
-            <span class="phase-accordion-trigger__icon"></span>
-          </button>
-          <div class="phase-accordion-panel">
-            <p class="phase-accordion-panel__text">
-              Cada posible paciente recibe un WhatsApp personalizado en menos de 60 segundos. A cualquier hora. Cualquier día. La IA califica, responde dudas y agenda directamente en tu calendario. Si no responde, recibe una llamada de voz IA en 15 minutos.
-            </p>
+          <div class="phases-orbital__core">
+            <span class="phases-orbital__core-label">Patient Flow</span>
+            <strong class="phases-orbital__core-title">Sistema conectado</strong>
+            <p class="phases-orbital__core-copy">Cuatro fases enlazadas para que el interés no se enfríe entre canales, agenda y consulta.</p>
           </div>
-        </article>
 
-        <article class="phase-accordion-item reveal-stagger stagger-3">
-          <button class="phase-accordion-trigger" type="button" aria-expanded="false">
-            <span class="phase-accordion-trigger__index">03</span>
-            <span class="phase-accordion-trigger__title">Protocolo anti no-show</span>
-            <span class="phase-accordion-trigger__icon"></span>
+          <button
+            type="button"
+            class="phases-orbital__node phases-orbital__node--top is-active reveal-stagger stagger-1"
+            data-phase-node
+            data-phase-index="01"
+            data-phase-kicker="Contenido + Meta Ads"
+            data-phase-title="Atracción inteligente"
+            data-phase-copy="Grabamos cada mes 8-12 videos directamente en tu clínica con tu equipo médico. Sin plantillas genéricas. Sin stock. Todo real y optimizado para Meta Ads."
+            aria-pressed="true"
+          >
+            <span class="phases-orbital__node-index">01</span>
+            <span class="phases-orbital__node-title">Atracción inteligente</span>
           </button>
-          <div class="phase-accordion-panel">
-            <p class="phase-accordion-panel__text">
-              Cuatro puntos de contacto automatizados antes de cada cita: confirmación inmediata, recordatorio 48h, preparación 2h antes y llamada de confirmación. Los huecos cancelados se reasignan automáticamente.
-            </p>
-          </div>
-        </article>
 
-        <article class="phase-accordion-item reveal-stagger stagger-4">
-          <button class="phase-accordion-trigger" type="button" aria-expanded="false">
-            <span class="phase-accordion-trigger__index">04</span>
-            <span class="phase-accordion-trigger__title">Cierre asistido en consulta</span>
-            <span class="phase-accordion-trigger__icon"></span>
+          <button
+            type="button"
+            class="phases-orbital__node phases-orbital__node--right reveal-stagger stagger-2"
+            data-phase-node
+            data-phase-index="02"
+            data-phase-kicker="Respuesta inmediata"
+            data-phase-title="Calificación 24/7 con IA"
+            data-phase-copy="Cada posible paciente recibe un WhatsApp personalizado en menos de 60 segundos. A cualquier hora. Cualquier día. La IA califica, responde dudas y agenda directamente en tu calendario. Si no responde, recibe una llamada de voz IA en 15 minutos."
+            aria-pressed="false"
+          >
+            <span class="phases-orbital__node-index">02</span>
+            <span class="phases-orbital__node-title">Calificación 24/7 con IA</span>
           </button>
-          <div class="phase-accordion-panel">
-            <p class="phase-accordion-panel__text">
-              Tras cada primera visita, la IA analiza la conversación y entrega un informe al doctor: puntos fuertes, objeciones detectadas y próximos pasos sugeridos. Cada primera visita mejora la siguiente.
-            </p>
+
+          <button
+            type="button"
+            class="phases-orbital__node phases-orbital__node--bottom reveal-stagger stagger-3"
+            data-phase-node
+            data-phase-index="03"
+            data-phase-kicker="Asistencia confirmada"
+            data-phase-title="Protocolo anti no-show"
+            data-phase-copy="Cuatro puntos de contacto automatizados antes de cada cita: confirmación inmediata, recordatorio 48h, preparación 2h antes y llamada de confirmación. Los huecos cancelados se reasignan automáticamente."
+            aria-pressed="false"
+          >
+            <span class="phases-orbital__node-index">03</span>
+            <span class="phases-orbital__node-title">Protocolo anti no-show</span>
+          </button>
+
+          <button
+            type="button"
+            class="phases-orbital__node phases-orbital__node--left reveal-stagger stagger-4"
+            data-phase-node
+            data-phase-index="04"
+            data-phase-kicker="Mejora continua"
+            data-phase-title="Cierre asistido en consulta"
+            data-phase-copy="Tras cada primera visita, la IA analiza la conversación y entrega un informe al doctor: puntos fuertes, objeciones detectadas y próximos pasos sugeridos. Cada primera visita mejora la siguiente."
+            aria-pressed="false"
+          >
+            <span class="phases-orbital__node-index">04</span>
+            <span class="phases-orbital__node-title">Cierre asistido en consulta</span>
+          </button>
+        </div>
+
+        <article class="phases-orbital__detail reveal-stagger stagger-2" id="phases-orbital-detail" aria-live="polite">
+          <div class="phases-orbital__detail-meta">
+            <span class="phases-orbital__detail-index" id="phases-orbital-detail-index">01</span>
+            <span class="phases-orbital__detail-kicker" id="phases-orbital-detail-kicker">Contenido + Meta Ads</span>
           </div>
+          <h3 class="phases-orbital__detail-title" id="phases-orbital-detail-title">Atracción inteligente</h3>
+          <p class="phases-orbital__detail-copy" id="phases-orbital-detail-copy">
+            Grabamos cada mes 8-12 videos directamente en tu clínica con tu equipo médico. Sin plantillas genéricas. Sin stock. Todo real y optimizado para Meta Ads.
+          </p>
         </article>
       </div>
     </div>

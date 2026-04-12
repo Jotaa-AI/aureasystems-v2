@@ -221,6 +221,12 @@
 
     let frameLoaded = false;
 
+    function syncBookingFrameHeight() {
+      const viewportHeight = window.innerHeight || 0;
+      const minHeight = viewportHeight <= 820 ? 980 : 1120;
+      bookingFrame.style.minHeight = `${minHeight}px`;
+    }
+
     function hidePlaceholder() {
       if (frameLoaded) return;
       frameLoaded = true;
@@ -236,6 +242,12 @@
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
+      syncBookingFrameHeight();
+      [120, 420, 900].forEach((delay) => {
+        window.setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, delay);
+      });
     }
 
     function closeModal() {
@@ -257,6 +269,8 @@
 
     bookingFrame.addEventListener('load', hidePlaceholder, { once: true });
     window.setTimeout(hidePlaceholder, 1600);
+    window.addEventListener('resize', syncBookingFrameHeight);
+    syncBookingFrameHeight();
 
     window.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && modal.classList.contains('is-open')) {
@@ -291,6 +305,68 @@
         }
       });
     });
+  }
+
+  function initPhasesOrbital() {
+    const root = document.getElementById('phases-orbital');
+    if (!root) return;
+
+    const nodes = Array.from(root.querySelectorAll('[data-phase-node]'));
+    const detailIndex = document.getElementById('phases-orbital-detail-index');
+    const detailKicker = document.getElementById('phases-orbital-detail-kicker');
+    const detailTitle = document.getElementById('phases-orbital-detail-title');
+    const detailCopy = document.getElementById('phases-orbital-detail-copy');
+
+    if (!nodes.length || !detailIndex || !detailKicker || !detailTitle || !detailCopy) return;
+
+    let activeIndex = nodes.findIndex((node) => node.classList.contains('is-active'));
+    if (activeIndex < 0) activeIndex = 0;
+    let autoRotate = true;
+    let intervalId = 0;
+
+    function applyNode(index) {
+      const node = nodes[index];
+      if (!node) return;
+
+      nodes.forEach((item, itemIndex) => {
+        const isActive = itemIndex === index;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
+      detailIndex.textContent = node.dataset.phaseIndex || '';
+      detailKicker.textContent = node.dataset.phaseKicker || '';
+      detailTitle.textContent = node.dataset.phaseTitle || '';
+      detailCopy.textContent = node.dataset.phaseCopy || '';
+
+      activeIndex = index;
+    }
+
+    function startAutoRotate() {
+      window.clearInterval(intervalId);
+      if (!autoRotate) return;
+
+      intervalId = window.setInterval(() => {
+        const nextIndex = (activeIndex + 1) % nodes.length;
+        applyNode(nextIndex);
+      }, 3600);
+    }
+
+    nodes.forEach((node, index) => {
+      node.addEventListener('click', () => {
+        autoRotate = false;
+        window.clearInterval(intervalId);
+        applyNode(index);
+      });
+    });
+
+    root.addEventListener('mouseleave', () => {
+      if (!autoRotate) return;
+      startAutoRotate();
+    });
+
+    applyNode(activeIndex);
+    startAutoRotate();
   }
 
   // --- MAGNETIC BUTTON EFFECT --- (subtle, premium)
@@ -791,7 +867,7 @@
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Ahora mismo te envío por aquí la ubicación y la confirmación.\nAntes de tu cita te llegará también un mensaje de recordatorio para que la tengas presente.\nSi te surge cualquier duda antes de venir, me escribes y te ayudo.',
+        text: 'Ahora mismo te envío por aquí la ubicación y la confirmación.\nAntes de tu cita te llegará un mensaje de recordatorio para que la tengas presente.\nSi te surge cualquier duda antes de venir, me escribes y te ayudo.',
       },
     ];
 
@@ -878,7 +954,7 @@
     initTestimonialsScroll();
     initSmoothAnchors();
     initBookingModal();
-    initPhasesAccordion();
+    initPhasesOrbital();
     initMagneticButtons();
     initHeroSimulator();
     initAIConversation();
