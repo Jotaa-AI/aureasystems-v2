@@ -3,15 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aurea Systems — Patient Flow | Pacientes Cualificados para tu Clínica</title>
-  <meta name="description" content="Patient Flow convierte tu inversión publicitaria en primeras valoraciones reales para tu clínica. IA conversacional 24/7, protocolo anti no-show y creative studio." />
+  <title>Llena tu agenda con pacientes cualificados.</title>
+  <meta name="description" content="Aurea Flow™ convierte cada lead en una primera visita asistida. IA conversacional 24/7, protocolo anti no-show y creative studio para clínicas de medicina estética facial." />
   <meta name="theme-color" content="#050505" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="is-loading">
+
+  <div class="page-loader" id="page-loader" aria-hidden="true">
+    <div class="page-loader__inner">
+      <img
+        src="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d3aa6f4cde4bbc2a007b40.png"
+        alt="Aurea Systems"
+        class="page-loader__logo"
+      />
+    </div>
+  </div>
 
   <!-- =========================================
        NAVBAR
@@ -19,7 +29,11 @@
   <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar__inner">
       <a href="#" class="navbar__logo" aria-label="Aurea Systems — Inicio">
-        Aurea<span class="navbar__logo-accent"> Systems</span>
+        <img
+          src="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d3aa6f4cde4bbc2a007b40.png"
+          alt="Aurea Systems"
+          class="brand-logo brand-logo--nav"
+        />
       </a>
 
       <ul class="navbar__links">
@@ -44,87 +58,170 @@
        ========================================= -->
   <section class="section section--hero" id="hero">
     <div class="hero__bg">
-      <div class="hero__bg-image" style="background-image: url('https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d81d74a4e6aa34cb5b2690.png');"></div>
       <div class="hero__bg-gradient"></div>
       <div class="hero__bg-grid"></div>
+      <div class="hero__bg-orb hero__bg-orb--1"></div>
+      <div class="hero__bg-orb hero__bg-orb--2"></div>
     </div>
 
     <div class="hero hero--split">
-      <div class="hero__left">
-        <!-- Badge -->
+      <div class="hero__copy">
         <div class="hero-reveal hero-reveal--delay-1">
           <div class="hero__badge">
             <span class="hero__badge-text">
+              Solo 4 plazas en España
               <span class="hero__badge-dot"></span>
-              Solo 3 plazas disponibles este trimestre
             </span>
           </div>
         </div>
 
-        <!-- Heading -->
         <h1 class="hero__title hero-reveal hero-reveal--delay-2">
-          Llena tu agenda<br />
-          con <span class="hero__title-accent">pacientes<br />cualificados.</span>
+          Llena tu agenda con <span class="hero__title-accent">pacientes cualificados.</span>
         </h1>
 
-        <!-- Description -->
         <p class="hero__subtitle hero-reveal hero-reveal--delay-3">
           El sistema que convierte tu inversión publicitaria en primeras valoraciones reales para tu clínica.
         </p>
 
-        <!-- CTA Buttons -->
         <div class="hero__actions hero-reveal hero-reveal--delay-4">
-          <a href="#reservar" class="btn btn--accent btn--lg" id="hero-cta">
-            Quiero más pacientes
+          <a href="#reservar" class="btn btn--primary" id="hero-cta">
+            Reservar llamada
             <span class="btn__arrow">→</span>
           </a>
           <a href="#sistema" class="btn btn--secondary" id="hero-secondary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.8;"><polygon points="5,3 19,12 5,21"/></svg>
-            Ver cómo funciona Patient Flow
+            Descubrir el sistema
           </a>
-        </div>
-
-        <!-- Social proof micro -->
-        <div class="hero__proof hero-reveal hero-reveal--delay-5">
-          <div class="hero__proof-avatars">
-            <div class="hero__proof-avatar">AS</div>
-            <div class="hero__proof-avatar">CV</div>
-            <div class="hero__proof-avatar">LP</div>
-          </div>
-          <span class="hero__proof-text">+20 clínicas ya usan <strong>Patient Flow</strong></span>
         </div>
       </div>
 
-      <div class="hero__right hero-reveal hero-reveal--delay-3">
-        <div class="hero__metrics-card">
-          <div class="hero__metrics-header">
-            <span class="hero__metrics-badge">🟢 En directo</span>
-            <span class="hero__metrics-label">Patient Flow · Panel de Resultados</span>
-          </div>
-          <div class="hero__metrics-grid">
-            <div class="hero__metric">
-              <div class="hero__metric-value" data-count="47" data-suffix="">0</div>
-              <div class="hero__metric-label">Valoraciones este mes</div>
+      <div class="hero__simulator hero-reveal hero-reveal--delay-5">
+        <div class="hero-sim" id="hero-sim" data-state="locked">
+          <div class="hero-sim__halo"></div>
+          <div class="hero-sim__frame">
+            <div class="hero-sim__panel hero-sim__panel--gate" id="hero-sim-gate">
+              <h3 class="hero-sim__title">
+                Descubre qué podría mover Aurea Flow™ en tu clínica.
+              </h3>
+
+              <p class="hero-sim__copy">
+                Déjanos tu correo profesional y accede a la estimación interactiva.
+              </p>
+
+              <div class="hero-sim__teasers">
+                <div class="hero-sim__teaser">
+                  <span class="hero-sim__teaser-label">Qué verás</span>
+                  <strong>Contactos y pacientes cualificados</strong>
+                </div>
+                <div class="hero-sim__teaser">
+                  <span class="hero-sim__teaser-label">También</span>
+                  <strong>Facturación estimada y tiempo de recuperación</strong>
+                </div>
+              </div>
+
+              <form class="hero-sim__unlock-form" id="hero-sim-unlock-form">
+                <label class="visually-hidden" for="hero-sim-email">Correo profesional</label>
+                <input
+                  type="email"
+                  id="hero-sim-email"
+                  class="hero-sim__input"
+                  placeholder="nombre@tuclinica.com"
+                  autocomplete="email"
+                  required
+                />
+                <button type="submit" class="btn btn--primary hero-sim__unlock-btn">
+                  Desbloquear simulación
+                </button>
+              </form>
+
+              <p class="hero-sim__note">
+                Primero desbloqueas la simulación. Después puedes ajustar la proyección.
+              </p>
+              <p class="hero-sim__feedback" id="hero-sim-gate-feedback" aria-live="polite"></p>
             </div>
-            <div class="hero__metric">
-              <div class="hero__metric-value">&lt;60s</div>
-              <div class="hero__metric-label">Tiempo de respuesta</div>
+
+            <div class="hero-sim__panel hero-sim__panel--calculator" id="hero-sim-calculator" hidden>
+              <div class="hero-sim__panel-top hero-sim__panel-top--calculator">
+                <div>
+                  <span class="hero-sim__eyebrow">Simulación activa</span>
+                  <p class="hero-sim__active-copy">Ajusta tres variables y revisa la proyección.</p>
+                </div>
+                <span class="hero-sim__pill hero-sim__pill--email" id="hero-sim-email-badge"></span>
+              </div>
+
+              <div class="hero-sim__scenario-switch" id="hero-sim-scenarios">
+                <button type="button" class="hero-sim__scenario is-active" data-scenario="expected">
+                  <span>Esperado</span>
+                  <small>Base</small>
+                </button>
+                <button type="button" class="hero-sim__scenario" data-scenario="conservative">
+                  <span>Conservador</span>
+                  <small>Margen</small>
+                </button>
+                <button type="button" class="hero-sim__scenario" data-scenario="optimistic">
+                  <span>Optimista</span>
+                  <small>Eficiencia</small>
+                </button>
+              </div>
+
+              <div class="hero-sim__summary" id="hero-sim-summary">
+                <span class="hero-sim__summary-label" id="hero-sim-summary-label">Escenario esperado</span>
+                <strong class="hero-sim__summary-value" id="hero-sim-summary-value">€0</strong>
+                <p class="hero-sim__summary-copy" id="hero-sim-summary-copy">
+                  Estimación orientativa de primeras compras.
+                </p>
+              </div>
+
+              <div class="hero-sim__inputs">
+                <div class="hero-sim__field">
+                  <div class="hero-sim__field-head">
+                    <label for="hero-sim-investment">Inversión mensual</label>
+                    <span id="hero-sim-investment-value">2.500 €</span>
+                  </div>
+                  <input type="range" min="800" max="5000" step="100" value="2500" id="hero-sim-investment" />
+                </div>
+
+                <div class="hero-sim__field">
+                  <div class="hero-sim__field-head">
+                    <label for="hero-sim-close-rate">Tasa de cierre</label>
+                    <span id="hero-sim-close-rate-value">25%</span>
+                  </div>
+                  <input type="range" min="5" max="100" step="1" value="25" id="hero-sim-close-rate" />
+                </div>
+
+                <div class="hero-sim__field">
+                  <div class="hero-sim__field-head">
+                    <label for="hero-sim-ticket">Ticket medio</label>
+                    <span id="hero-sim-ticket-value">320 €</span>
+                  </div>
+                  <input type="number" min="80" max="15000" step="10" value="320" id="hero-sim-ticket" class="hero-sim__number" />
+                </div>
+              </div>
+
+              <div class="hero-sim__results" id="hero-sim-results">
+                <article class="hero-sim__result">
+                  <span>Contactos interesados</span>
+                  <strong id="hero-sim-result-contacts">0</strong>
+                </article>
+                <article class="hero-sim__result">
+                  <span>Pacientes cualificados</span>
+                  <strong id="hero-sim-result-qualified">0</strong>
+                </article>
+                <article class="hero-sim__result">
+                  <span>Facturación estimada</span>
+                  <strong id="hero-sim-result-revenue">€0</strong>
+                </article>
+                <article class="hero-sim__result">
+                  <span>Recuperación estimada</span>
+                  <strong id="hero-sim-result-recovery">0 días</strong>
+                </article>
+              </div>
+
+              <button type="button" class="btn btn--primary hero-sim__detail-btn" id="hero-sim-detail-btn">
+                Recibir análisis detallado
+              </button>
+              <p class="hero-sim__feedback hero-sim__feedback--detail" id="hero-sim-detail-feedback" aria-live="polite"></p>
             </div>
-            <div class="hero__metric">
-              <div class="hero__metric-value" data-count="89" data-suffix="%">0%</div>
-              <div class="hero__metric-label">Tasa de asistencia</div>
-            </div>
-            <div class="hero__metric">
-              <div class="hero__metric-value">24/7</div>
-              <div class="hero__metric-label">IA activa</div>
-            </div>
-          </div>
-          <div class="hero__metrics-bar">
-            <div class="hero__metrics-bar-label">Objetivo mensual</div>
-            <div class="hero__metrics-bar-track">
-              <div class="hero__metrics-bar-fill" style="width: 94%;"></div>
-            </div>
-            <div class="hero__metrics-bar-value">94%</div>
           </div>
         </div>
       </div>
@@ -177,7 +274,7 @@
   <section class="section section--spacious phases" id="sistema">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-label">Patient Flow</span>
+        <span class="section-label">Aurea Flow™</span>
         <h2 class="section-title">
           Cuatro fases.<br />
           Cero pacientes perdidos.
@@ -337,7 +434,7 @@
           Números que importan.
         </h2>
         <p class="section-subtitle">
-          No vendemos leads. No vendemos clics. Vendemos primeras valoraciones reales en tu clínica.
+          No vendemos leads. No vendemos clics. Vendemos primeras visitas asistidas en tu clínica.
         </p>
       </div>
 
@@ -358,49 +455,6 @@
           <div class="result-card__value">24/7</div>
           <div class="result-card__label">Calificación y atención continua, sin parar</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- =========================================
-       INVERSIÓN
-       ========================================= -->
-  <section class="section section--spacious investment" id="inversion">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">Inversión clara</span>
-        <h2 class="section-title">
-          Sin sorpresas.
-        </h2>
-        <p class="section-subtitle">
-          Valor total del stack: 4.500€/mes. Tu inversión real: una fracción.
-        </p>
-      </div>
-
-      <div class="investment__table-wrap reveal">
-        <div class="investment__row">
-          <span class="investment__row-label">Setup inicial</span>
-          <span class="investment__row-value">Gratis <span style="color: var(--color-text-tertiary); font-weight: 400; font-size: var(--text-sm);">(con 6 meses)</span></span>
-        </div>
-        <div class="investment__row investment__row--highlight">
-          <span class="investment__row-label">Fee mensual Patient Flow</span>
-          <span class="investment__row-value">1.200 €/mes</span>
-        </div>
-        <div class="investment__row">
-          <span class="investment__row-label">Inversión publicitaria Meta</span>
-          <span class="investment__row-value">Desde 1.000 €/mes</span>
-        </div>
-        <div class="investment__row">
-          <span class="investment__row-label">Permanencia mínima</span>
-          <span class="investment__row-value">3 meses</span>
-        </div>
-      </div>
-
-      <div class="investment__roi reveal">
-        <div class="investment__roi-value">3.000 € en facturación nueva</div>
-        <div class="investment__roi-label">Recuperación estimada el primer mes · 15 visitas × 40% conversión × 500€ ticket medio</div>
       </div>
     </div>
   </section>
@@ -557,7 +611,7 @@
         No es una técnica de venta. Es una decisión operativa.
       </p>
       <a href="#reservar" class="btn btn--accent" id="exclusivity-cta">
-        Comprobar disponibilidad en mi zona
+        Comprobar si tu zona está libre
         <span class="btn__arrow">→</span>
       </a>
     </div>
@@ -571,16 +625,15 @@
   <section class="section cta-final" id="reservar">
     <div class="container reveal">
       <h2 class="cta-final__title">
-        ¿Listo para llenar tu agenda?
+        Tu próximo paso.
       </h2>
       <p class="cta-final__subtitle">
-        30 minutos. Sin compromiso. Te mostramos exactamente cuántos pacientes cualificados podemos traer a tu clínica con Patient Flow.
+        30 minutos. Sin compromiso. Analizamos si hay encaje entre tu clínica y Aurea Flow.
       </p>
-      <a href="#" class="btn btn--accent btn--lg" id="final-cta" style="font-size: var(--text-base); padding: var(--space-5) var(--space-10);">
-        Quiero más pacientes cualificados
+      <a href="#" class="btn btn--accent" id="final-cta" style="font-size: var(--text-base); padding: var(--space-5) var(--space-10);">
+        Reservar llamada de descubrimiento
         <span class="btn__arrow">→</span>
       </a>
-      <p class="cta-final__micro">Sin permanencia mínima agresiva · Garantía de resultados</p>
     </div>
   </section>
 
@@ -603,10 +656,14 @@
           <!-- Brand column -->
           <div class="sticky-footer__brand">
             <div class="navbar__logo" style="margin-bottom: var(--space-2);">
-              Aurea<span class="navbar__logo-accent"> Systems</span>
+              <img
+                src="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d3aa6f4cde4bbc2a007b40.png"
+                alt="Aurea Systems"
+                class="brand-logo brand-logo--footer"
+              />
             </div>
             <p class="sticky-footer__brand-desc">
-              Patient Flow — El sistema de captación con IA que llena la agenda de tu clínica con pacientes cualificados.
+              Sistemas de captación con IA para medicina estética facial. De extremo a extremo.
             </p>
             <div class="sticky-footer__socials">
               <a href="#" class="sticky-footer__social-btn" aria-label="Instagram">
@@ -628,7 +685,7 @@
               <li><a href="#sistema" class="sticky-footer__link">Cómo funciona</a></li>
               <li><a href="#ia" class="sticky-footer__link">IA Conversacional</a></li>
               <li><a href="#resultados" class="sticky-footer__link">Resultados</a></li>
-              <li><a href="#inversion" class="sticky-footer__link">Inversión</a></li>
+              <li><a href="#reservar" class="sticky-footer__link">Reservar llamada</a></li>
             </ul>
           </div>
 
@@ -670,7 +727,7 @@
         <!-- Bottom bar -->
         <div class="sticky-footer__bottom">
           <p>© 2026 Aurea Systems. Todos los derechos reservados.</p>
-          <p>Patient Flow™ es una marca de Aurea Systems</p>
+          <p>Aurea Flow™ es una marca de Aurea Systems</p>
         </div>
       </div>
     </div>
