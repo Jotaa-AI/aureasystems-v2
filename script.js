@@ -309,6 +309,34 @@
     });
   }
 
+  // --- PHASES ACCORDION ---
+  function initPhasesAccordion() {
+    const items = Array.from(document.querySelectorAll('.phase-accordion-item'));
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      const trigger = item.querySelector('.phase-accordion-trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', () => {
+        const isOpen = item.classList.contains('is-open');
+
+        items.forEach((otherItem) => {
+          otherItem.classList.remove('is-open');
+          const otherTrigger = otherItem.querySelector('.phase-accordion-trigger');
+          if (otherTrigger) {
+            otherTrigger.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        if (!isOpen) {
+          item.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
   // --- MAGNETIC BUTTON EFFECT --- (subtle, premium)
   function initMagneticButtons() {
     const buttons = document.querySelectorAll('.btn--primary, .btn--accent');
@@ -752,62 +780,62 @@
       {
         from: 'patient',
         label: 'Marta',
-        text: 'Hola Ana. Sí, justo estoy mirando porque me preocupa bastante la flacidez de la parte baja del rostro y también el surco nasogeniano. No tengo claro qué me iría mejor.',
-      },
-      {
-        from: 'agent',
-        label: 'Ana · IA',
-        text: 'Entiendo. Gracias por contármelo. Para orientarte bien, ¿buscas algo muy natural y progresivo o te apetecería notar un cambio más visible desde el principio?',
+        text: 'Hola Ana',
       },
       {
         from: 'patient',
         label: 'Marta',
-        text: 'Natural, sin duda. Quiero verme mejor, pero sin que se note raro.',
+        text: 'Si, justo estoy mirando porque me preocupa bastante la flacidez que me noto en la zona de la papada y pomulos per no tengo claro qué me iría bien',
       },
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Perfecto, ese tipo de resultado es justo el que más nos piden. ¿Te has hecho antes algún tratamiento facial estético o sería tu primera valoración con nosotros?',
+        text: 'Te entiendo. Gracias por explicármelo así.\nPor lo que me cuentas, lo mejor es que el doctor te vea porque esa zona suele valorarse en conjunto para mantener un resultado natural.\n¿Tu idea sería mejorar sin que se note algo exagerado?',
       },
       {
         from: 'patient',
         label: 'Marta',
-        text: 'Me hice ácido hialurónico hace un par de años, pero bastante poco. Desde entonces nada.',
+        text: 'Sí, justo eso. Quiero verme mejor pero que se vea natural.',
       },
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Genial, me sirve. Para la primera valoración médica, ¿te viene mejor entre semana por la mañana o por la tarde?',
+        text: 'Perfecto. ¿Te has hecho antes algún tratamiento en papada, pómulos o tercio inferior del rostro, o sería tu primera valoración de este tipo?',
       },
       {
         from: 'patient',
         label: 'Marta',
-        text: 'Por la tarde mejor. A partir de las 17:00 suelo poder.',
+        text: 'No, sería la primera vez.',
       },
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Perfecto. Veo hueco este jueves a las 17:30 o el lunes a las 18:00 en clínica. La primera valoración es presencial para que el doctor pueda verte bien y proponerte el plan más adecuado. ¿Cuál te encaja mejor?',
+        text: 'Genial, así el doctor puede valorar bien desde cero y explicarte qué opción encaja contigo.\n¿Te viene mejor venir entre semana por la tarde o prefieres mediodía?',
       },
       {
         from: 'patient',
         label: 'Marta',
-        text: 'El jueves a las 17:30 me viene genial.',
+        text: 'Por la tarde mejor. A partir de las 17:30 suelo poder.',
       },
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Reservado, Marta 😊\nTe he agendado la primera valoración para este jueves a las 17:30 en Aurea Clínics Barcelona.\nSi quieres, te paso ahora mismo la ubicación y las indicaciones para llegar.',
+        text: 'Perfecto. Te puedo ofrecer una primera valoración este jueves a las 18:00 o el lunes a las 17:45 en Aurea Clínics Barcelona.\n¿Cuál te encaja mejor?',
       },
       {
         from: 'patient',
         label: 'Marta',
-        text: 'Perfecto, envíamelas por favor.',
+        text: 'El jueves a las 18:00 me va perfecto.',
       },
       {
         from: 'agent',
         label: 'Ana · IA',
-        text: 'Claro. Te las envío ahora mismo junto con la confirmación. Y si antes de venir te surge cualquier duda, me escribes por aquí y te ayudo.',
+        text: 'Listo Marta 😊\nTe he dejado reservada la primera valoración para este jueves a las 18:00 en Aurea Clínics Barcelona.',
+      },
+      {
+        from: 'agent',
+        label: 'Ana · IA',
+        text: 'Ahora mismo te envío por aquí la ubicación, la confirmación y un recordatorio antes de venir.\nSi te surge cualquier duda antes de la cita, me escribes y te ayudo.',
       },
     ];
 
@@ -895,6 +923,7 @@
     initTestimonialsScroll();
     initSmoothAnchors();
     initBookingModal();
+    initPhasesAccordion();
     initMagneticButtons();
     initHeroSimulator();
     initAIConversation();

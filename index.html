@@ -293,46 +293,57 @@
         </p>
       </div>
 
-      <div class="phases-orbit reveal">
-        <div class="phases-orbit__ring phases-orbit__ring--outer" aria-hidden="true"></div>
-        <div class="phases-orbit__ring phases-orbit__ring--inner" aria-hidden="true"></div>
-
-        <div class="phases-orbit__core">
-          <span class="phases-orbit__core-label">Aurea Systems</span>
-          <strong class="phases-orbit__core-title">Patient Flow</strong>
-          <p class="phases-orbit__core-text">4 fases que orbitan sobre el mismo objetivo: llenar tu agenda con pacientes cualificados.</p>
-        </div>
-
-        <article class="phase-orbit-card phase-orbit-card--1 reveal-stagger stagger-1">
-          <span class="phase-orbit-card__index">01</span>
-          <h3 class="phase-orbit-card__title">Atracción inteligente</h3>
-          <p class="phase-orbit-card__desc">
-            Grabamos cada mes 8-12 videos directamente en tu clínica con tu equipo médico. Sin plantillas genéricas. Sin stock. Todo real y optimizado para Meta Ads.
-          </p>
+      <div class="phases-accordion reveal" id="phases-accordion">
+        <article class="phase-accordion-item reveal-stagger stagger-1 is-open">
+          <button class="phase-accordion-trigger" type="button" aria-expanded="true">
+            <span class="phase-accordion-trigger__index">01</span>
+            <span class="phase-accordion-trigger__title">Atracción inteligente</span>
+            <span class="phase-accordion-trigger__icon"></span>
+          </button>
+          <div class="phase-accordion-panel">
+            <p class="phase-accordion-panel__text">
+              Grabamos cada mes 8-12 videos directamente en tu clínica con tu equipo médico. Sin plantillas genéricas. Sin stock. Todo real y optimizado para Meta Ads.
+            </p>
+          </div>
         </article>
 
-        <article class="phase-orbit-card phase-orbit-card--2 reveal-stagger stagger-2">
-          <span class="phase-orbit-card__index">02</span>
-          <h3 class="phase-orbit-card__title">Calificación 24/7 con IA</h3>
-          <p class="phase-orbit-card__desc">
-            Cada posible paciente recibe un WhatsApp personalizado en menos de 60 segundos. A cualquier hora. Cualquier día. La IA califica, responde dudas y agenda directamente en tu calendario. Si no responde, recibe una llamada de voz IA en 15 minutos.
-          </p>
+        <article class="phase-accordion-item reveal-stagger stagger-2">
+          <button class="phase-accordion-trigger" type="button" aria-expanded="false">
+            <span class="phase-accordion-trigger__index">02</span>
+            <span class="phase-accordion-trigger__title">Calificación 24/7 con IA</span>
+            <span class="phase-accordion-trigger__icon"></span>
+          </button>
+          <div class="phase-accordion-panel">
+            <p class="phase-accordion-panel__text">
+              Cada posible paciente recibe un WhatsApp personalizado en menos de 60 segundos. A cualquier hora. Cualquier día. La IA califica, responde dudas y agenda directamente en tu calendario. Si no responde, recibe una llamada de voz IA en 15 minutos.
+            </p>
+          </div>
         </article>
 
-        <article class="phase-orbit-card phase-orbit-card--3 reveal-stagger stagger-3">
-          <span class="phase-orbit-card__index">03</span>
-          <h3 class="phase-orbit-card__title">Protocolo anti no-show</h3>
-          <p class="phase-orbit-card__desc">
-            Cuatro puntos de contacto automatizados antes de cada cita: confirmación inmediata, recordatorio 48h, preparación 2h antes y llamada de confirmación. Los huecos cancelados se reasignan automáticamente.
-          </p>
+        <article class="phase-accordion-item reveal-stagger stagger-3">
+          <button class="phase-accordion-trigger" type="button" aria-expanded="false">
+            <span class="phase-accordion-trigger__index">03</span>
+            <span class="phase-accordion-trigger__title">Protocolo anti no-show</span>
+            <span class="phase-accordion-trigger__icon"></span>
+          </button>
+          <div class="phase-accordion-panel">
+            <p class="phase-accordion-panel__text">
+              Cuatro puntos de contacto automatizados antes de cada cita: confirmación inmediata, recordatorio 48h, preparación 2h antes y llamada de confirmación. Los huecos cancelados se reasignan automáticamente.
+            </p>
+          </div>
         </article>
 
-        <article class="phase-orbit-card phase-orbit-card--4 reveal-stagger stagger-4">
-          <span class="phase-orbit-card__index">04</span>
-          <h3 class="phase-orbit-card__title">Cierre asistido en consulta</h3>
-          <p class="phase-orbit-card__desc">
-            Tras cada primera visita, la IA analiza la conversación y entrega un informe al doctor: puntos fuertes, objeciones detectadas y próximos pasos sugeridos. Cada primera visita mejora la siguiente.
-          </p>
+        <article class="phase-accordion-item reveal-stagger stagger-4">
+          <button class="phase-accordion-trigger" type="button" aria-expanded="false">
+            <span class="phase-accordion-trigger__index">04</span>
+            <span class="phase-accordion-trigger__title">Cierre asistido en consulta</span>
+            <span class="phase-accordion-trigger__icon"></span>
+          </button>
+          <div class="phase-accordion-panel">
+            <p class="phase-accordion-panel__text">
+              Tras cada primera visita, la IA analiza la conversación y entrega un informe al doctor: puntos fuertes, objeciones detectadas y próximos pasos sugeridos. Cada primera visita mejora la siguiente.
+            </p>
+          </div>
         </article>
       </div>
     </div>
@@ -361,17 +372,33 @@
         </div>
 
         <div class="ai-agent__conversation reveal">
-          <div class="ai-chat" id="ai-chat">
-            <div class="ai-chat__header">
-              <div class="ai-chat__header-copy">
-                <span class="ai-chat__eyebrow">Patient Flow</span>
-                <strong>Agente IA · WhatsApp</strong>
+          <div class="iphone-mockup">
+            <div class="iphone-mockup__frame">
+              <div class="iphone-mockup__island"></div>
+              <div class="iphone-mockup__screen">
+                <div class="ai-chat" id="ai-chat">
+                  <div class="ai-chat__ios-status">
+                    <span>9:41</span>
+                    <span>5G</span>
+                  </div>
+                  <div class="ai-chat__header">
+                    <div class="ai-chat__avatar">A</div>
+                    <div class="ai-chat__header-copy">
+                      <span class="ai-chat__eyebrow">WhatsApp</span>
+                      <strong>Ana · Aurea Clínics</strong>
+                    </div>
+                    <span class="ai-chat__status">en línea</span>
+                  </div>
+                  <div class="ai-chat__messages" id="ai-chat-messages" role="log" aria-live="polite"></div>
+                  <div class="ai-chat__typing ai-chat__typing--agent" id="ai-chat-typing" hidden>
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="ai-chat__composer" aria-hidden="true">
+                    <div class="ai-chat__composer-pill">Escribe un mensaje</div>
+                    <div class="ai-chat__composer-mic"></div>
+                  </div>
+                </div>
               </div>
-              <span class="ai-chat__status">Activo ahora</span>
-            </div>
-            <div class="ai-chat__messages" id="ai-chat-messages" role="log" aria-live="polite"></div>
-            <div class="ai-chat__typing" id="ai-chat-typing" hidden>
-              <span></span><span></span><span></span>
             </div>
           </div>
         </div>
@@ -409,14 +436,14 @@
           </div>
         </div>
         <div class="experience__visual reveal" data-parallax="0.05">
-          <div class="experience__visual-inner">
-            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" style="opacity: 0.4;">
-              <rect x="15" y="25" width="90" height="70" rx="8" stroke="var(--color-accent)" stroke-width="1"/>
-              <polygon points="50,45 50,75 75,60" fill="var(--color-accent)" opacity="0.5"/>
-              <circle cx="30" cy="35" r="3" fill="var(--color-accent)" opacity="0.4"/>
-              <line x1="15" y1="85" x2="105" y2="85" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.3"/>
-            </svg>
-            <div style="position: absolute; bottom: 24px; right: 24px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-tertiary);">UGC Studio · 8-12 creativos/mes</div>
+          <div class="experience__visual-photo">
+            <img
+              src="assets/creative-studio-team.jpg"
+              alt="Equipo de marketing coordinando una jornada de grabación con el equipo de la clínica"
+              class="experience__visual-photo-img"
+            />
+            <div class="experience__visual-photo-overlay"></div>
+            <div class="experience__visual-photo-badge">UGC Studio · Jornada de grabación mensual</div>
           </div>
         </div>
       </div>
