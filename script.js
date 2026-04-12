@@ -15,33 +15,44 @@
     if (!loader) return;
 
     let hidden = false;
-    const totalDuration = 2600;
+    let loadReady = document.readyState === 'complete';
+    let animationReady = false;
+    const minimumDuration = 3200;
+    const hardTimeout = 5200;
     const start = performance.now();
     let frame = 0;
 
     function animateProgress(now) {
       if (!fill || !status || !value || hidden) return;
 
-      const progress = Math.min((now - start) / totalDuration, 1);
+      const targetDuration = animationReady ? minimumDuration : minimumDuration * 0.92;
+      const progress = Math.min((now - start) / targetDuration, 1);
       const eased = 1 - Math.pow(1 - progress, 2.4);
-      const percentage = progress >= 1 ? 100 : Math.min(97, Math.round(eased * 100));
+      const percentage = loadReady && animationReady
+        ? 100
+        : Math.min(96, Math.round(eased * 100));
 
       fill.style.width = `${percentage}%`;
       value.textContent = `${percentage}%`;
 
-      if (percentage < 35) {
-        status.textContent = 'Cargando Aurea Systems';
-      } else if (percentage < 75) {
-        status.textContent = 'Preparando Patient Flow';
-      } else if (percentage < 100) {
-        status.textContent = 'Abriendo la experiencia';
+      if (percentage < 28) {
+        status.textContent = 'Inicializando sistema';
+      } else if (percentage < 62) {
+        status.textContent = 'Sincronizando Patient Flow';
+      } else if (percentage < 92) {
+        status.textContent = 'Preparando la experiencia';
       } else {
-        status.textContent = 'Listo';
+        status.textContent = loadReady && animationReady ? 'Listo' : 'Ultimando detalles';
       }
 
-      if (progress < 1) {
+      if (!hidden) {
         frame = window.requestAnimationFrame(animateProgress);
       }
+    }
+
+    function maybeHideLoader() {
+      if (!loadReady || !animationReady) return;
+      hideLoader();
     }
 
     function hideLoader() {
@@ -62,8 +73,15 @@
     }
 
     frame = window.requestAnimationFrame(animateProgress);
-    window.addEventListener('load', hideLoader, { once: true });
-    window.setTimeout(hideLoader, 2600);
+    window.addEventListener('load', () => {
+      loadReady = true;
+      maybeHideLoader();
+    }, { once: true });
+    window.setTimeout(() => {
+      animationReady = true;
+      maybeHideLoader();
+    }, minimumDuration);
+    window.setTimeout(hideLoader, hardTimeout);
   }
 
   // --- NAVBAR SCROLL BEHAVIOR ---
@@ -199,35 +217,51 @@
   // --- TESTIMONIALS MARQUEE (auto-scroll) ---
   function initTestimonialsScroll() {
     const track = document.querySelector('.testimonials__track');
-    if (!track) return;
+    if (!track || track.dataset.enhanced === 'true') return;
 
-    // Clone cards for infinite scroll
-    const cards = track.querySelectorAll('.testimonial-card');
+    track.dataset.enhanced = 'true';
+
+    const cards = Array.from(track.querySelectorAll('.testimonial-card'));
     cards.forEach((card) => {
       const clone = card.cloneNode(true);
+      clone.classList.remove('reveal-stagger', 'visible');
+      clone.setAttribute('aria-hidden', 'true');
       track.appendChild(clone);
     });
 
     let scrollAmount = 0;
     let isHovering = false;
-    const speed = 0.5;
+    let frame = 0;
+    const speed = window.innerWidth < 768 ? 0.2 : 0.28;
 
-    function scroll() {
+    function step() {
       if (!isHovering) {
         scrollAmount += speed;
-        const halfWidth = track.scrollWidth / 2;
-        if (scrollAmount >= halfWidth) {
+        const resetPoint = track.scrollWidth / 2;
+        if (scrollAmount >= resetPoint) {
           scrollAmount = 0;
         }
-        track.style.transform = `translateX(-${scrollAmount}px)`;
+        track.style.transform = `translate3d(-${scrollAmount}px, 0, 0)`;
       }
-      requestAnimationFrame(scroll);
+
+      frame = window.requestAnimationFrame(step);
     }
 
-    track.addEventListener('mouseenter', () => { isHovering = true; });
-    track.addEventListener('mouseleave', () => { isHovering = false; });
+    function pause() {
+      isHovering = true;
+    }
 
-    requestAnimationFrame(scroll);
+    function resume() {
+      isHovering = false;
+    }
+
+    track.addEventListener('mouseenter', pause);
+    track.addEventListener('mouseleave', resume);
+    track.addEventListener('focusin', pause);
+    track.addEventListener('focusout', resume);
+    window.addEventListener('beforeunload', () => window.cancelAnimationFrame(frame), { once: true });
+
+    frame = window.requestAnimationFrame(step);
   }
 
   // --- SMOOTH ANCHOR LINKS ---
@@ -257,7 +291,7 @@
   function initBookingModal() {
     const modal = document.getElementById('booking-modal');
     const placeholder = document.getElementById('booking-modal-placeholder');
-    const bookingFrame = document.getElementById('Pmlo90k5oI5mm21x9Vqb_1775980045908');
+    const bookingFrame = document.getElementById('Pmlo90k5oI5mm21x9Vqb_1776020957979');
     const triggers = document.querySelectorAll('[data-booking-trigger]');
     const closeTargets = document.querySelectorAll('[data-booking-close]');
 

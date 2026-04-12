@@ -6,6 +6,7 @@
   <title>Llena tu agenda con pacientes cualificados.</title>
   <meta name="description" content="Aurea Systems aplica Patient Flow para convertir potenciales pacientes en primeras valoraciones reales para tu clínica. IA conversacional 24/7, protocolo anti no-show y creative studio." />
   <meta name="theme-color" content="#050505" />
+  <link rel="icon" type="image/png" href="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d3ffd7bec7abdef116977b.png" />
   <link rel="preconnect" href="https://assets.cdn.filesafe.space" />
   <link rel="preconnect" href="https://link.cleesaas.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,14 +18,26 @@
 
   <div class="page-loader" id="page-loader" aria-hidden="true">
     <div class="page-loader__inner">
-      <img
-        src="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d3aa6f4cde4bbc2a007b40.png"
-        alt="Aurea Systems"
-        class="page-loader__logo"
-      />
+      <div class="page-loader__visual" aria-hidden="true">
+        <div class="page-loader__spiral">
+          <span class="page-loader__ring page-loader__ring--outer"></span>
+          <span class="page-loader__ring page-loader__ring--middle"></span>
+          <span class="page-loader__ring page-loader__ring--inner"></span>
+          <span class="page-loader__core"></span>
+          <span class="page-loader__particle page-loader__particle--1"></span>
+          <span class="page-loader__particle page-loader__particle--2"></span>
+          <span class="page-loader__particle page-loader__particle--3"></span>
+        </div>
+      </div>
       <div class="page-loader__meta" aria-live="polite">
-        <span class="page-loader__status" id="page-loader-status">Cargando Aurea Systems</span>
-        <span class="page-loader__value" id="page-loader-value">0%</span>
+        <div class="page-loader__wordmark" aria-label="Aurea Systems">
+          <span class="page-loader__wordmark-aurea">AUREA</span>
+          <span class="page-loader__wordmark-systems">SYSTEMS</span>
+        </div>
+        <div class="page-loader__status-row">
+          <span class="page-loader__status" id="page-loader-status">Inicializando sistema</span>
+          <span class="page-loader__value" id="page-loader-value">0%</span>
+        </div>
       </div>
       <div class="page-loader__bar" aria-hidden="true">
         <div class="page-loader__fill" id="page-loader-fill"></div>
@@ -37,7 +50,7 @@
        ========================================= -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar__inner">
-      <a href="#" class="navbar__logo" aria-label="Aurea Systems — Inicio">
+      <a href="#hero" class="navbar__logo" aria-label="Aurea Systems — Inicio">
         <img
           src="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69d3aa6f4cde4bbc2a007b40.png"
           alt="Aurea Systems"
@@ -97,7 +110,7 @@
             Reservar llamada
             <span class="btn__arrow">→</span>
           </a>
-          <a href="#sistema" class="btn btn--secondary" id="hero-secondary">
+          <a href="#reservar" class="btn btn--secondary" id="hero-secondary" data-booking-trigger>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.8;"><polygon points="5,3 19,12 5,21"/></svg>
             Descubrir el sistema
           </a>
@@ -500,7 +513,7 @@
     </div>
 
     <div class="testimonials-grid-wrap">
-      <div class="testimonials-grid">
+      <div class="testimonials-grid testimonials__track" id="testimonials-track">
 
         <div class="testimonial-card reveal-stagger stagger-1">
           <div class="testimonial-card__stars">
@@ -514,7 +527,7 @@
             "La IA de WhatsApp es indistinguible de una persona. Mis pacientes me preguntan quién es la chica que les habla con tanta atención. Les digo que es nuestro sistema. No se lo creen."
           </p>
           <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">AS</div>
+            <img class="testimonial-card__avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Alejandro Soler" loading="lazy" decoding="async" />
             <div>
               <div class="testimonial-card__name">Dr. Alejandro Soler</div>
               <div class="testimonial-card__role">Director médico · Clínica Soler Facial, Valencia</div>
@@ -534,7 +547,7 @@
             "En dos semanas ya teníamos primeras visitas de la campaña de reactivación. Para el final del primer mes, habíamos superado las 20 visitas nuevas. Nunca habíamos visto algo así."
           </p>
           <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">DC</div>
+            <img class="testimonial-card__avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dra. Carmen Vélez" loading="lazy" decoding="async" />
             <div>
               <div class="testimonial-card__name">Dra. Carmen Vélez</div>
               <div class="testimonial-card__role">Directora médica · Clínica Derma Lux, Barcelona</div>
@@ -554,7 +567,7 @@
             "Nuestra recepcionista estaba quemada de perseguir potenciales pacientes por WhatsApp. Ahora se dedica a lo que importa: atender a los pacientes que ya están aquí. Y tenemos más que nunca."
           </p>
           <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">MR</div>
+            <img class="testimonial-card__avatar" src="https://randomuser.me/api/portraits/men/52.jpg" alt="Miguel Rodríguez" loading="lazy" decoding="async" />
             <div>
               <div class="testimonial-card__name">Miguel Rodríguez</div>
               <div class="testimonial-card__role">Director · Estética Avanzada Rodríguez, Madrid</div>
@@ -574,7 +587,7 @@
             "El no-show era nuestro peor enemigo. En el segundo mes ya estábamos en <15%. El protocolo anti no-show es, sin exagerar, lo que más impacto ha tenido en nuestra facturación."
           </p>
           <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar">LP</div>
+            <img class="testimonial-card__avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dra. Laura Puig" loading="lazy" decoding="async" />
             <div>
               <div class="testimonial-card__name">Dra. Laura Puig</div>
               <div class="testimonial-card__role">Fundadora · Clínica Puig Estética, Girona</div>
@@ -693,14 +706,8 @@
               Sistemas de captación con IA para medicina estética facial. De extremo a extremo.
             </p>
             <div class="sticky-footer__socials">
-              <a href="#" class="sticky-footer__social-btn" aria-label="Instagram">
+              <a href="https://www.instagram.com/aureasystems_" class="sticky-footer__social-btn" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
-              <a href="#" class="sticky-footer__social-btn" aria-label="LinkedIn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-              <a href="#" class="sticky-footer__social-btn" aria-label="X / Twitter">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
               </a>
             </div>
           </div>
@@ -716,36 +723,23 @@
             </ul>
           </div>
 
-          <!-- Soluciones -->
-          <div class="sticky-footer__col">
-            <h3 class="sticky-footer__col-title">Soluciones</h3>
-            <ul class="sticky-footer__links">
-              <li><a href="#" class="sticky-footer__link">Clínicas de medicina estética</a></li>
-              <li><a href="#" class="sticky-footer__link">Cirugía plástica</a></li>
-              <li><a href="#" class="sticky-footer__link">Odontología estética</a></li>
-              <li><a href="#" class="sticky-footer__link">Dermatología</a></li>
-            </ul>
-          </div>
-
-          <!-- Empresa -->
           <div class="sticky-footer__col">
             <h3 class="sticky-footer__col-title">Empresa</h3>
             <ul class="sticky-footer__links">
-              <li><a href="#" class="sticky-footer__link">Sobre nosotros</a></li>
-              <li><a href="#" class="sticky-footer__link">Blog</a></li>
-              <li><a href="#" class="sticky-footer__link">Contacto</a></li>
-              <li><a href="#" class="sticky-footer__link">Casos de éxito</a></li>
+              <li><a href="#problema" class="sticky-footer__link">Sobre Aurea</a></li>
+              <li><a href="#sistema" class="sticky-footer__link">Patient Flow</a></li>
+              <li><a href="#testimonios" class="sticky-footer__link">Casos de éxito</a></li>
+              <li><a href="#reservar" class="sticky-footer__link" data-booking-trigger>Contacto</a></li>
             </ul>
           </div>
 
-          <!-- Legal -->
           <div class="sticky-footer__col">
             <h3 class="sticky-footer__col-title">Legal</h3>
             <ul class="sticky-footer__links">
-              <li><a href="#" class="sticky-footer__link">Política de privacidad</a></li>
-              <li><a href="#" class="sticky-footer__link">Términos de servicio</a></li>
-              <li><a href="#" class="sticky-footer__link">Política de cookies</a></li>
-              <li><a href="#" class="sticky-footer__link">Cumplimiento RGPD</a></li>
+              <li><a href="mailto:hola@aureasystems.es?subject=Pol%C3%ADtica%20de%20privacidad%20Aurea%20Systems" class="sticky-footer__link">Política de privacidad</a></li>
+              <li><a href="mailto:hola@aureasystems.es?subject=T%C3%A9rminos%20de%20servicio%20Aurea%20Systems" class="sticky-footer__link">Términos de servicio</a></li>
+              <li><a href="mailto:hola@aureasystems.es?subject=Pol%C3%ADtica%20de%20cookies%20Aurea%20Systems" class="sticky-footer__link">Política de cookies</a></li>
+              <li><a href="mailto:hola@aureasystems.es?subject=Cumplimiento%20RGPD%20Aurea%20Systems" class="sticky-footer__link">Cumplimiento RGPD</a></li>
             </ul>
           </div>
 
@@ -789,7 +783,7 @@
           src="https://link.cleesaas.com/widget/booking/Pmlo90k5oI5mm21x9Vqb"
           style="width: 100%; border: none; overflow: hidden;"
           scrolling="no"
-          id="Pmlo90k5oI5mm21x9Vqb_1775980045908"
+          id="Pmlo90k5oI5mm21x9Vqb_1776020957979"
           title="Calendario de reunión de descubrimiento"
           loading="eager"
         ></iframe>
