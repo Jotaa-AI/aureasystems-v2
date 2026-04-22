@@ -2481,7 +2481,7 @@ body.modal-open {
   position: fixed;
   inset: 0;
   z-index: 2100;
-  display: grid;
+  display: none;
   place-items: center;
   padding: 0.75rem;
   opacity: 0;
@@ -2491,6 +2491,7 @@ body.modal-open {
 }
 
 .booking-modal.is-open {
+  display: grid;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
