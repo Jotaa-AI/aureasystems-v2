@@ -11,3 +11,11 @@ Thumbs.db
 
 # Text reference files
 oferta_aureasystems.txt
+
+# Blog build
+node_modules/
+dist-blog/
+
+# Logs
+npm-debug.log*
+*.log
