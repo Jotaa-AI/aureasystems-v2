@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{TITLE}} — Aurea Systems</title>
+  <meta name="description" content="{{DESCRIPTION}}" />
+  <meta name="theme-color" content="#050505" />
+  <meta name="author" content="{{AUTHOR_NAME}}" />
+  <link rel="canonical" href="{{CANONICAL_URL}}" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{TITLE}}" />
+  <meta property="og:description" content="{{DESCRIPTION}}" />
+  <meta property="og:url" content="{{CANONICAL_URL}}" />
+  <meta property="og:image" content="{{COVER_IMAGE}}" />
+  <meta property="og:site_name" content="Aurea Systems" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="article:published_time" content="{{PUBLISHED_AT}}" />
+  <meta property="article:author" content="{{AUTHOR_LINKEDIN}}" />
+  <meta property="article:section" content="{{CATEGORY}}" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{TITLE}}" />
+  <meta name="twitter:description" content="{{DESCRIPTION}}" />
+  <meta name="twitter:image" content="{{COVER_IMAGE}}" />
+
+  <link rel="icon" type="image/png" href="https://assets.cdn.filesafe.space/ju5vSpTX0hpH3uI8cPSE/media/69dbf5c8982fd67a359f470a.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/blog/blog.css" />
+  <link rel="alternate" type="application/rss+xml" title="Blog Aurea Systems" href="/blog/feed.xml" />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {{SCHEMA_JSON}}
+  </script>
+</head>
+<body class="blog-page">
+
+  {{NAV}}
+
+  <main>
+    <article>
+      <div class="blog-container blog-container--narrow">
+        <nav class="breadcrumbs" aria-label="Migas de pan">
+          <a href="/">Inicio</a>
+          <span class="breadcrumbs__sep">/</span>
+          <a href="/blog/">Blog</a>
+          <span class="breadcrumbs__sep">/</span>
+          <span>{{CATEGORY}}</span>
+        </nav>
+
+        <header class="post-header">
+          <span class="post-header__category">{{CATEGORY}}</span>
+          <h1 class="post-header__title">{{TITLE}}</h1>
+          <div class="post-header__meta">
+            <a href="{{AUTHOR_LINKEDIN}}" class="post-header__author" target="_blank" rel="noopener noreferrer">
+              <span class="post-header__author-avatar">{{AUTHOR_AVATAR}}</span>
+              <span>{{AUTHOR_NAME}}</span>
+            </a>
+            <span class="post-header__sep">•</span>
+            <time datetime="{{PUBLISHED_AT}}">{{PUBLISHED_AT_HUMAN}}</time>
+            <span class="post-header__sep">•</span>
+            <span>{{READING_TIME}} min de lectura</span>
+          </div>
+        </header>
+      </div>
+
+      <figure class="post-cover">
+        <img src="{{COVER_IMAGE}}" alt="{{COVER_ALT}}" loading="eager" />
+        {{COVER_CAPTION_BLOCK}}
+      </figure>
+
+      <div class="blog-container blog-container--narrow">
+        {{TOC_BLOCK}}
+
+        <div class="post-content">
+          {{CONTENT}}
+        </div>
+
+        {{FAQ_BLOCK}}
+
+        <aside class="post-author-box">
+          <div class="post-author-box__avatar">{{AUTHOR_AVATAR_LARGE}}</div>
+          <div class="post-author-box__info">
+            <div class="post-author-box__name">{{AUTHOR_NAME}}</div>
+            <div class="post-author-box__role">{{AUTHOR_ROLE}}</div>
+            <p class="post-author-box__bio">{{AUTHOR_BIO}}</p>
+            <a href="{{AUTHOR_LINKEDIN}}" class="post-author-box__linkedin" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              <span>Conectar en LinkedIn</span>
+            </a>
+          </div>
+        </aside>
+
+        <section class="post-cta">
+          <h2 class="post-cta__title">¿Quieres llenar tu agenda con pacientes cualificados?</h2>
+          <p class="post-cta__text">
+            Patient Flow es el sistema de Aurea Systems que convierte tu inversión publicitaria en primeras valoraciones reales. IA conversacional 24/7, protocolo anti no-show y creative studio.
+          </p>
+          <a href="/#reservar" class="btn">Reservar llamada de diagnóstico</a>
+        </section>
+      </div>
+
+      {{RELATED_BLOCK}}
+    </article>
+  </main>
+
+  {{FOOTER}}
+
+</body>
+</html>
