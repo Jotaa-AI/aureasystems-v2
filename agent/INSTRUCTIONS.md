@@ -80,14 +80,20 @@ Prioridad de selección:
 - ✅ Intención clara: informacional, comparativa o transaccional. Mejor las dos primeras.
 - ✅ Apto B2B: el tema interesa al dueño, no al paciente.
 
-### Especialidad por autor
+### Especialidad por autor (regla estricta, NO mezclar)
 
-| Autor | Categorías que prefiere | Ejemplos de tema |
-|---|---|---|
-| **Joel** | Captación, Marketing, Tecnología, Creative | Anuncios meta para clínicas, IA conversacional, Instagram, embudos |
-| **Lluc** | Operativa, Métricas, Equipo, Legal | KPIs, no-shows, gestión de agenda, formación, RGPD |
+A partir de ahora cada autor cubre **solo** su área temática. La categoría del frontmatter debe coincidir con el área del autor.
 
-Si el TOPIC_BANK ofrece un tema de la categoría preferida del autor de turno, mejor. Si no, no pasa nada — cualquiera puede escribir de cualquier categoría.
+| Autor | Área temática | Categorías válidas | Ejemplos de tema |
+|---|---|---|---|
+| **Lluc** | **Marketing para clínicas** | `Marketing`, `Captación`, `Branding`, `Redes Sociales`, `Conversión` | Estrategia de Instagram, anuncios Meta, embudos de captación, retención, posicionamiento, copywriting de landings |
+| **Joel** | **Tecnología e IA aplicada al negocio** | `IA`, `Tecnología`, `Automatización`, `Datos`, `Herramientas` | IA conversacional 24/7, automatización de WhatsApp, CRM con IA, scoring de leads, dashboards, integraciones, chatbots |
+
+**Cómo aplicar la regla en la sección 3.3 (alternancia):**
+- Si toca **Lluc** → tema de Marketing.
+- Si toca **Joel** → tema de Tecnología/IA.
+
+Si tras buscar en el TOPIC_BANK no hay un tema disponible del área correspondiente, **investiga uno nuevo con WebSearch** — no cambies de autor para acomodarte al banco de temas.
 
 ### 3.5. Generar el archivo Markdown
 
@@ -98,7 +104,7 @@ Crea `content/posts/YYYY-MM-DD-{slug}.md` con esta plantilla:
 title: "Título atractivo (60-65 caracteres, contiene keyword)"
 description: "Meta descripción 140-160 caracteres con keyword + propuesta de valor concreta"
 slug: "url-slug-corto-max-7-palabras"
-category: "Captación|Operativa|Marketing|Tecnología|Métricas|Legal"
+category: "Marketing|Captación|Branding|Redes Sociales|Conversión|IA|Tecnología|Automatización|Datos|Herramientas"
 date: "YYYY-MM-DD"
 author: "joel"  # o "lluc"
 cover: "https://images.unsplash.com/photo-XXXX?w=1600&q=80&auto=format&fit=crop"
@@ -226,6 +232,38 @@ gh pr create \
 EOF
 )"
 ```
+
+### 6.4. Notificar a Telegram (paso obligatorio antes de cerrar)
+
+Inmediatamente después de abrir el PR con éxito, **avisa al canal de Telegram** del equipo Aurea para que puedan revisar y aprobar desde el móvil.
+
+El servicio de notificación corre en el VPS y expone un endpoint sencillo:
+
+```bash
+curl -s -X POST "https://aureasystems.es/bot/notify-pr" \
+  -H "Authorization: Bearer ${BOT_NOTIFY_SECRET}" \
+  -H "Content-Type: application/json" \
+  -d "$(cat <<JSON
+{
+  "pr_number": ${PR_NUMBER},
+  "title": "${TITLE}",
+  "description": "${DESCRIPTION}",
+  "author_name": "${AUTHOR_NAME}",
+  "category": "${CATEGORY}",
+  "reading_time": ${READING_TIME},
+  "word_count": ${WORD_COUNT},
+  "cover_url": "${COVER_URL}",
+  "slug": "${SLUG}"
+}
+JSON
+)"
+```
+
+Variables ya disponibles en el entorno del agente:
+- `BOT_NOTIFY_SECRET` — token compartido entre el agente y el servicio del VPS
+- `PR_NUMBER` — devuelto por `gh pr create --json number`
+
+Si la llamada devuelve HTTP 200 y `{"ok": true}`, todo bien. Si falla, inclúyelo en el output final pero **no abortes ni cierres el PR** — el humano puede revisar en GitHub aunque la notificación falle.
 
 ---
 
