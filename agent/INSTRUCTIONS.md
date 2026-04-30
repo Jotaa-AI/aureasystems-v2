@@ -175,49 +175,37 @@ Si dudas, pon una imagen de instalaciones o de equipo trabajando.
 
 ---
 
-## 6. Workflow git + GitHub
+## 6. Workflow de publicación (vía bot service)
 
-### 6.1. Crear rama
+> ⚠️ **Importante**: el entorno cloud donde corres tiene un **firewall que bloquea `git push` directo**. NO intentes pushear desde aquí. Tampoco uses herramientas MCP de GitHub (no tienen los permisos correctos).
+>
+> En su lugar, **delegas todo el git/PR al servicio del VPS** (que sí tiene red abierta). Tú solo generas el contenido y lo envías por HTTPS.
 
-```bash
-git checkout -b post/YYYY-MM-DD-{slug}
-```
+### 6.1. Genera el `.md` y la versión actualizada de `TOPIC_BANK.md` (en variables o archivos locales)
 
-### 6.2. Commitear
+Puedes escribir los archivos en tu directorio local de trabajo (con `Write`) o tenerlos en variables. Lo importante es tener el **contenido completo** de cada uno listo para enviar.
 
-```bash
-git add content/posts/YYYY-MM-DD-{slug}.md agent/TOPIC_BANK.md
-git commit -m "Nuevo post: {título completo}"
-```
-
-### 6.3. Push y PR
+### 6.2. Construye el JSON y haz UNA llamada al bot service
 
 ```bash
-git push -u origin post/YYYY-MM-DD-{slug}
-gh pr create \
-  --title "Post: {título}" \
-  --body "$(cat <<'EOF'
-## Resumen
+# Recomendado: usar python3 para construir el JSON sin sufrir con escapes en bash
+PR_BODY="## Resumen
 
-- **Título**: {título}
-- **Autor**: Joel | Lluc
-- **Categoría**: {categoría}
-- **Keyword principal**: {keyword}
-- **Intención de búsqueda**: informacional | comparativa | transaccional
-- **Volumen mensual estimado**: {número o "no medido"}
-- **Competencia (KD)**: baja | media | alta
-- **Tiempo de lectura**: {n} min
-- **Palabras**: {n}
+- **Título**: $TITULO
+- **Autor**: $AUTHOR_NAME
+- **Categoría**: $CATEGORY
+- **Keyword principal**: $KEYWORD
+- **Intención de búsqueda**: $INTENT
+- **Tiempo de lectura**: $READING_TIME min
+- **Palabras**: $WORD_COUNT
 
 ## Por qué este tema
 
-{2-3 frases justificando por qué este tema posiciona y por qué encaja con la audiencia ahora mismo}
+$JUSTIFICATION
 
 ## Fuentes consultadas
 
-- {URL 1}
-- {URL 2}
-- {URL 3}
+$SOURCES
 
 ## Checklist humano antes de mergear
 
@@ -226,44 +214,52 @@ gh pr create \
 - [ ] Imagen de portada apropiada
 - [ ] Enlaces internos funcionan
 - [ ] FAQ tiene sentido y aporta
-- [ ] El cierre/CTA suena natural, no forzado
 
-🤖 Generado por la routine "Generador semanal de blog Aurea"
-EOF
-)"
-```
+🤖 Generado por la routine \"Generador semanal de blog Aurea\""
 
-### 6.4. Notificar a Telegram (paso obligatorio antes de cerrar)
+# Construye el body JSON con python (más seguro que jq con strings largos)
+JSON=$(python3 -c "
+import json, sys, os
+print(json.dumps({
+  'branch_name': os.environ['BRANCH_NAME'],
+  'commit_message': os.environ['COMMIT_MSG'],
+  'files': [
+    {'path': os.environ['POST_PATH'], 'content': open(os.environ['POST_FILE']).read()},
+    {'path': 'agent/TOPIC_BANK.md', 'content': open(os.environ['BANK_FILE']).read()}
+  ],
+  'pr_title': os.environ['PR_TITLE'],
+  'pr_body': os.environ['PR_BODY'],
+  'notify': {
+    'title': os.environ['TITULO'],
+    'description': os.environ['DESCRIPTION'],
+    'author_name': os.environ['AUTHOR_NAME'],
+    'category': os.environ['CATEGORY'],
+    'reading_time': int(os.environ['READING_TIME']),
+    'word_count': int(os.environ['WORD_COUNT']),
+    'cover_url': os.environ['COVER_URL'],
+    'slug': os.environ['SLUG'],
+  }
+}))
+")
 
-Inmediatamente después de abrir el PR con éxito, **avisa al canal de Telegram** del equipo Aurea para que puedan revisar y aprobar desde el móvil.
-
-El servicio de notificación corre en el VPS y expone un endpoint sencillo:
-
-```bash
-curl -s -X POST "https://aureasystems.es/bot/notify-pr" \
-  -H "Authorization: Bearer ${BOT_NOTIFY_SECRET}" \
+# POST al endpoint
+RESPONSE=$(curl -s -X POST "https://aureasystems.es/bot/submit-post" \
+  -H "Authorization: Bearer $BOT_NOTIFY_SECRET" \
   -H "Content-Type: application/json" \
-  -d "$(cat <<JSON
-{
-  "pr_number": ${PR_NUMBER},
-  "title": "${TITLE}",
-  "description": "${DESCRIPTION}",
-  "author_name": "${AUTHOR_NAME}",
-  "category": "${CATEGORY}",
-  "reading_time": ${READING_TIME},
-  "word_count": ${WORD_COUNT},
-  "cover_url": "${COVER_URL}",
-  "slug": "${SLUG}"
-}
-JSON
-)"
+  -d "$JSON")
+
+echo "$RESPONSE"
 ```
 
-Variables ya disponibles en el entorno del agente:
-- `BOT_NOTIFY_SECRET` — token compartido entre el agente y el servicio del VPS
-- `PR_NUMBER` — devuelto por `gh pr create --json number`
+### 6.3. Interpreta la respuesta
 
-Si la llamada devuelve HTTP 200 y `{"ok": true}`, todo bien. Si falla, inclúyelo en el output final pero **no abortes ni cierres el PR** — el humano puede revisar en GitHub aunque la notificación falle.
+- ✅ `{"ok":true,"pr_number":N,"pr_url":"...","telegram":{"ok":true,"message_id":...}}` — PR abierto y notificación enviada. Misión cumplida.
+- ❌ `{"ok":true, ..., "telegram":{"ok":false, "error":"..."}}` — PR abierto OK pero falló Telegram. Reporta el error pero NO abortes (humano puede ver en GitHub).
+- ❌ HTTP 500 con `{"ok":false, "error":"..."}` — el bot no pudo crear PR. Reporta y termina sin reintentar.
+
+### 6.4. Estructura del PR body (referencia)
+
+El bot crea el PR con el `pr_title` y `pr_body` que le pases. Asegúrate de que el body es informativo: incluye autor, keyword, intención, fuentes consultadas y checklist de revisión.
 
 ---
 
@@ -273,7 +269,7 @@ Si has usado un tema del TOPIC_BANK:
 
 1. Cambia su `status: pending` a `status: used`.
 2. Añade `used_date: YYYY-MM-DD` y `used_in: {slug}`.
-3. Inclúyelo en el `git add` para que el cambio entre en el PR.
+3. Incluye el contenido actualizado del `TOPIC_BANK.md` en el array `files` que envías al bot service (junto con el `.md` del post).
 
 Si has investigado un tema nuevo y crees que da para más artículos relacionados, **añade 2-3 ideas nuevas** al TOPIC_BANK con `status: pending`.
 
