@@ -1,0 +1,127 @@
+name: Generar post del blog
+
+on:
+  schedule:
+    # Lunes y jueves a las 7:00 UTC = 9:00 Madrid (CEST/CET-aware: GH cron usa UTC fijo).
+    # Si España cambia a hora estándar (CET, UTC+1) en invierno, el post saldrá a las 8:00 local.
+    - cron: '0 7 * * 1,4'
+  workflow_dispatch:
+
+# Solo una ejecución a la vez para evitar conflictos de ramas
+concurrency:
+  group: generate-blog-post
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Generar artículo con Claude API
+        id: generate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MODEL: claude-sonnet-4-5-20250929
+        run: npm run generate:post
+
+      - name: Configurar git
+        run: |
+          git config user.name "Aurea Blog Agent"
+          git config user.email "agent@aureasystems.es"
+
+      - name: Crear rama y commitear
+        run: |
+          git checkout -b "${{ steps.generate.outputs.branch_name }}"
+          git add "${{ steps.generate.outputs.post_path }}" agent/TOPIC_BANK.md
+          git commit -m "${{ steps.generate.outputs.commit_message }}"
+
+      - name: Push rama
+        run: git push -u origin "${{ steps.generate.outputs.branch_name }}"
+
+      - name: Abrir Pull Request
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_URL=$(gh pr create \
+            --title "${{ steps.generate.outputs.pr_title }}" \
+            --body "${{ steps.generate.outputs.pr_body }}" \
+            --base main \
+            --head "${{ steps.generate.outputs.branch_name }}")
+          PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+          echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "✅ PR abierto: $PR_URL (n.º $PR_NUMBER)"
+
+      - name: Notificar a Telegram
+        env:
+          BOT_NOTIFY_SECRET: ${{ secrets.BOT_NOTIFY_SECRET }}
+        run: |
+          set -e
+          PAYLOAD=$(python3 <<PYEOF
+          import json, os
+          print(json.dumps({
+            "pr_number": int(os.environ["PR_NUMBER"]),
+            "title": os.environ["TITLE"],
+            "description": os.environ["DESCRIPTION"],
+            "author_name": os.environ["AUTHOR_NAME"],
+            "category": os.environ["CATEGORY"],
+            "reading_time": int(os.environ["READING_TIME"]),
+            "word_count": int(os.environ["WORD_COUNT"]),
+            "cover_url": os.environ["COVER_URL"],
+            "slug": os.environ["SLUG"],
+          }))
+          PYEOF
+          )
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://aureasystems.es/bot/notify-pr" \
+            -H "Authorization: Bearer $BOT_NOTIFY_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          echo "HTTP $HTTP_CODE — $BODY"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::warning::Notificación Telegram falló — el PR está abierto, revisa en GitHub"
+          else
+            echo "✅ Telegram notificado"
+          fi
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
+          TITLE: ${{ steps.generate.outputs.title }}
+          DESCRIPTION: ${{ steps.generate.outputs.description }}
+          AUTHOR_NAME: ${{ steps.generate.outputs.author_name }}
+          CATEGORY: ${{ steps.generate.outputs.category }}
+          READING_TIME: ${{ steps.generate.outputs.reading_time }}
+          WORD_COUNT: ${{ steps.generate.outputs.word_count }}
+          COVER_URL: ${{ steps.generate.outputs.cover_url }}
+          SLUG: ${{ steps.generate.outputs.slug }}
+          BOT_NOTIFY_SECRET: ${{ secrets.BOT_NOTIFY_SECRET }}
+
+      - name: Resumen
+        if: always()
+        run: |
+          echo "### Resumen del run" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ steps.generate.outputs.branch_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Título**: ${{ steps.generate.outputs.title }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Autor**: ${{ steps.generate.outputs.author_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Palabras**: ${{ steps.generate.outputs.word_count }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **PR**: ${{ steps.pr.outputs.pr_url }}" >> $GITHUB_STEP_SUMMARY

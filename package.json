@@ -6,9 +6,11 @@
   "description": "Generador estático del blog de Aurea Systems",
   "scripts": {
     "build:blog": "node scripts/build-blog.mjs",
-    "serve:blog": "node scripts/build-blog.mjs && cd dist-blog && python3 -m http.server 8080"
+    "serve:blog": "node scripts/build-blog.mjs && cd dist-blog && python3 -m http.server 8080",
+    "generate:post": "node scripts/generate-post.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.1.0",
     "slugify": "^1.6.6"
