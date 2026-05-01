@@ -74,10 +74,19 @@ jobs:
 
       - name: Notificar a Telegram
         env:
+          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
+          TITLE: ${{ steps.generate.outputs.title }}
+          DESCRIPTION: ${{ steps.generate.outputs.description }}
+          AUTHOR_NAME: ${{ steps.generate.outputs.author_name }}
+          CATEGORY: ${{ steps.generate.outputs.category }}
+          READING_TIME: ${{ steps.generate.outputs.reading_time }}
+          WORD_COUNT: ${{ steps.generate.outputs.word_count }}
+          COVER_URL: ${{ steps.generate.outputs.cover_url }}
+          SLUG: ${{ steps.generate.outputs.slug }}
           BOT_NOTIFY_SECRET: ${{ secrets.BOT_NOTIFY_SECRET }}
         run: |
           set -e
-          PAYLOAD=$(python3 <<PYEOF
+          PAYLOAD=$(python3 <<'PYEOF'
           import json, os
           print(json.dumps({
             "pr_number": int(os.environ["PR_NUMBER"]),
@@ -104,17 +113,6 @@ jobs:
           else
             echo "✅ Telegram notificado"
           fi
-        env:
-          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
-          TITLE: ${{ steps.generate.outputs.title }}
-          DESCRIPTION: ${{ steps.generate.outputs.description }}
-          AUTHOR_NAME: ${{ steps.generate.outputs.author_name }}
-          CATEGORY: ${{ steps.generate.outputs.category }}
-          READING_TIME: ${{ steps.generate.outputs.reading_time }}
-          WORD_COUNT: ${{ steps.generate.outputs.word_count }}
-          COVER_URL: ${{ steps.generate.outputs.cover_url }}
-          SLUG: ${{ steps.generate.outputs.slug }}
-          BOT_NOTIFY_SECRET: ${{ secrets.BOT_NOTIFY_SECRET }}
 
       - name: Resumen
         if: always()
