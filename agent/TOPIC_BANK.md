@@ -106,7 +106,9 @@
 - keyword: "lead nurturing clínica estética"
 - intent: informacional
 - priority: 5
-- status: pending
+- status: used
+- used_date: 2026-05-01
+- used_in: leads-formulario-primera-valoracion
 
 ## Retención
 
