@@ -146,7 +146,9 @@
 - keyword: "respuesta automática leads clínica estética"
 - intent: informacional
 - priority: 5
-- status: pending
+- status: used
+- used_date: 2026-05-04
+- used_in: ia-respuesta-leads-clinica-estetica
 
 ### Cuándo conviene que un humano tome el relevo de la IA en tu clínica (y cómo)
 - keyword: "ia y humano clínica estética handoff"
